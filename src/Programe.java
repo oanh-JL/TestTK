@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 
 public class Programe {
@@ -14,8 +15,18 @@ public class Programe {
                 map[i][j] = 0;
             }
         }
-        int enemies1 = map[1][0] = 2;
-        int enemies2 = map[3][2] = 2;
+        int eX1= new Random().nextInt(3);
+        int eY1=new Random().nextInt(3);
+        int enemy1= map[eX1][eY1]=2;
+        int eX2;
+        int eY2;
+
+        do {
+            eX2= new Random().nextInt(3);
+            eY2=new Random().nextInt(3);
+        }
+        while (eX2==eX1&&eY2==eY1);
+
         boolean isPlaying = true;
         while (isPlaying) {
             int enemiesAround = 0;
@@ -36,15 +47,17 @@ public class Programe {
             String str[] = move.split("");
             int x = Integer.parseInt(str[0]);
             int y = Integer.parseInt(str[1]);
+            int a=x;
+            int b=y;
 
             rockets--;
             if (map[x][y] == 2) {
                 Enemys--;
                 map[x][y] = hit;
-                for (int l = x - 1; l <= x + 1; l++) {
+                for (int l = a - 1; l <= x + 1; l++) {
                     int t = l;
                     if (t > 3 || t < 0) continue;
-                    for (int m = y - 1; m <= y + 1; m++) {
+                    for (int m = b - 1; m <= y + 1; m++) {
                         int o = m;
                         if (o > 3 || o < 0) continue;
                         if (map[t][o] == 2) enemiesAround++;
@@ -57,13 +70,15 @@ public class Programe {
                  }
             else {
                 map[x][y] = miss;
-                for (int l = x - 1; l <= x + 1; l++) {
+                for (int l = a - 1; l <= x + 1; l++) {
                     int t = l;
-                    if (t > 3 || t < 0) continue;
-                    for (int m = x - 1; m <= y + 1; m++) {
-                        int o = m;
-                        if (o > 3 || o < 0) continue;
-                        if (map[t][o] == 2) enemiesAround++;
+                    if (t >=0 && t <= 3) {
+                        for (int m = b - 1; m <= y + 1; m++) {
+                            int o = m;
+                            if (o >= 0 && o <= 3) {
+                                if (map[t][o] == 2) enemiesAround++;
+                            }
+                        }
                     }
                 }
                 System.out.println("You Miss");
